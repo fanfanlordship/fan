@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: fan-cloud-eureka-auth
+
+server:
+  port: 8082
+
+eureka:
+  instance:
+    hostname: 127.0.0.1
+    appname: fan-cloud-eureka-auth  # eureka application的名称
+    prefer-ip-address: true #开启ip显示eureka的主机服务
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}      #eureka仪表盘的Instances格式
+  client:
+    service-url:
+      defaultZone: http://admin:123456@127.0.0.1:8081/eureka/
+    registry-fetch-interval-seconds: 30 #从eureka服务器注册表中获取注册表信息的时间间隔，默认30s
+    instance-info-replication-interval-seconds: 30  #客户端发送变化同步到eureka服务器的时间间隔 默认30s
+    eureka-service-url-poll-interval-seconds: 300 #询问eureka服务url信息的变化的间隔时间 默认300s
+    initial-instance-info-replication-interval-seconds: 40    #最初同步到eureka服务器的时间 默认40s
+    g-zip-content: true   #注册表是否压缩
+    eureka-server-connect-timeout-seconds: 5    #eureka等待超时时间 默认是5s
+    eureka-server-read-timeout-seconds: 8   #eureka等待读取时间 默认是8s
+    eureka-server-total-connections: 200    #eureka客户端允许的所有eureka服务器连接的总数 默认200
