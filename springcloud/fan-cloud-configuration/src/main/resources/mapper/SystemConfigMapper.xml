@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.fan.cloud.configuration.dao.SystemConfigDao">
+
+    <resultMap id="systemConfigMap" type="org.fan.cloud.configuration.entity.SystemConfig">
+        <id column="ID" property="id"/>
+        <result column="CODE" property="code"/>
+        <result column="NAME" property="name"/>
+        <result column="VALUE" property="value"/>
+    </resultMap>
+
+    <select id="queryByParam" parameterType="org.fan.cloud.configuration.entity.SystemConfig"
+            resultMap="systemConfigMap">
+        select sc.ID, sc.NAME, sc.CODE, sc.VALUE from FAN_SYSTEM_CONFIG sc
+        <where>
+            <if test="code != null and code != ''">sc.CODE = #{code}</if>
+        </where>
+    </select>
+
+</mapper>

@@ -6,8 +6,9 @@ insert into SYS_ROLE (ID, NAME, STATUS, CREATE_BY, CREATE_TIME) values (1, '超�
 #角色-测试人员关联信息
 insert into SYS_USER_ROLE_LINK (FK_USER_ID, FK_ROLE_ID) values (1, 1);
 #系统参数
-insert into SYS_SYSTEMPARAM (ID, CODE, NAME, VALUE) values (1, 'SYS_NAME', '系统名称', 'FANFAN的后台');
-insert into SYS_SYSTEMPARAM (ID, CODE, NAME, VALUE) values (2, 'DEFAULT_PASSWORD', '默认密码', '888888');
+insert into FAN_SYSTEM_CONFIG (ID, CODE, NAME, VALUE) values (1, 'SYS_NAME', '系统名称', 'FANFAN的后台');
+insert into FAN_SYSTEM_CONFIG (ID, CODE, NAME, VALUE) values (2, 'DEFAULT_PASSWORD', '默认密码', '888888');
+insert into FAN_SYSTEM_CONFIG (ID, CODE, NAME, VALUE) values (3, 'CAPTCHA_SIZE', '验证码长度', '4');
 #系统权限管理
 #系统管理员权限
 insert into SYS_PERMISSION (ID, NAME, SUP_ID, STATUS, PERMISSION, TYPE, ICON, MEMO, SORT, CREATE_BY, CREATE_TIME)

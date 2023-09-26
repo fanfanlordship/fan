@@ -79,13 +79,14 @@ create table SYS_ROLE_PER_LINK
 /*==============================================================*/
 /* Table: SYS_SYSTEMPARAM                                       */
 /*==============================================================*/
-create table SYS_SYSTEMPARAM
+drop table if exists FAN_SYSTEM_CONFIG;
+create table FAN_SYSTEM_CONFIG
 (
-    ID    BIGINT(20)  not null,
+    ID    INT         not null,
     CODE  VARCHAR(50) not null,
     NAME  VARCHAR(50),
-    VALUE MEDIUMTEXT,
-    constraint PK_SYS_SYSTEMPARAM primary key (ID)
+    VALUE VARCHAR(300),
+    PRIMARY KEY (ID)
 );
 
 /*==============================================================*/

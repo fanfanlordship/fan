@@ -2,7 +2,7 @@ spring:
   profiles:
     active: dev
   application:
-    name: fan-cloud-nacos-auth
+    name: fan-cloud-nacos-configuration
   cloud:
     nacos:
       config:
@@ -13,6 +13,6 @@ spring:
           - data-id: config-redis.yaml
             group: DEFAULT_GROUP
             refresh: true
-          - data-id: config-jwt.yaml
+          - data-id: config-database.yaml
             group: DEFAULT_GROUP
             refresh: true

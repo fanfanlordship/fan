@@ -2,8 +2,10 @@ package org.fan.cloud.gateway.filter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.fan.cloud.gateway.entry.ResultData;
+import org.fan.cloud.gateway.entity.ResultData;
 import org.reactivestreams.Publisher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -20,14 +22,19 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 /**
  * @author fanfanlordship
- * @Description TODO
+ * @Description 统一包装响应参数
  * @Date 2023/9/22 1:59
  */
 @Component
 public class GlobalResponseBodyFilter implements GlobalFilter, Ordered {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GlobalResponseBodyFilter.class);
+
+    private static final ObjectMapper om = new ObjectMapper();
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -48,20 +55,26 @@ public class GlobalResponseBodyFilter implements GlobalFilter, Ordered {
                         //完整得响应体
                         String responseData = new String(content, StandardCharsets.UTF_8);
 
-                        ResultData success = ResultData.success(responseData);
+                        Object obj;
+                        try {
+                            obj = om.readValue(responseData, Map.class);
+                        } catch (JsonProcessingException e) {
+                            obj = responseData;
+                        }
 
-                        byte[] bytes;
-                        ObjectMapper om = new ObjectMapper();
+                        ResultData success = ResultData.success(obj);
+
+                        byte[] bytes = null;
                         try {
                             bytes = om.writeValueAsBytes(success);
                         } catch (JsonProcessingException e) {
-                            throw new RuntimeException(e);
+                            LOGGER.error(e.getMessage(), e);
                         }
 
                         // 修改响应结果长度
-                        originalResponse.getHeaders().setContentLength(bytes.length);
+                        originalResponse.getHeaders().setContentLength(bytes == null ? 0 : bytes.length);
 
-                        return bufferFactory.wrap(bytes);
+                        return bufferFactory.wrap(bytes == null ? new byte[]{} : bytes);
                     }));
                 }
                 return super.writeWith(body);

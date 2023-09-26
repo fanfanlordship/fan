@@ -6,5 +6,13 @@ spring:
       config:
         server-addr: 127.0.0.1:8848
         file-extension: yaml # 配置文件格式
+        namespace: f9106845-f5eb-439a-aa79-b6939fa95373
+        extension-configs:
+          - data-id: config-redis.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+          - data-id: config-jwt.yaml
+            group: DEFAULT_GROUP
+            refresh: true
   profiles:
     active: dev

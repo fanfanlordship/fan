@@ -1,14 +1,13 @@
-package org.fan.cloud.gateway.entry;
+package org.fan.cloud.gateway.entity;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author fanfanlordship
- * @Description TODO
+ * @Description 响应结果
  * @Date 2023/9/22 1:59
  **/
-public final class ResultData implements Serializable {
+public final class ResultData {
     /**
      * 判断码
      * 0-成功 1-失败 2-非法操作
