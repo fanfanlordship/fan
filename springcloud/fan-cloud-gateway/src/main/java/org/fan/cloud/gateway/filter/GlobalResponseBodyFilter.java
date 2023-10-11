@@ -57,7 +57,7 @@ public class GlobalResponseBodyFilter implements GlobalFilter, Ordered {
 
                         Object obj;
                         try {
-                            obj = om.readValue(responseData, Map.class);
+                            obj = om.readValue(responseData, Object.class);
                         } catch (JsonProcessingException e) {
                             obj = responseData;
                         }

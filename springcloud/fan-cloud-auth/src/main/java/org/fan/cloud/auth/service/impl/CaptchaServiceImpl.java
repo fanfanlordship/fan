@@ -3,6 +3,7 @@ package org.fan.cloud.auth.service.impl;
 import org.fan.cloud.auth.entity.CaptchaDto;
 import org.fan.cloud.auth.feign.ConfigurationFeign;
 import org.fan.cloud.auth.service.CaptchaService;
+import org.fan.cloud.auth.util.ImageUtil;
 import org.fan.cloud.common.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +43,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         String captcha = StringUtil.buildRandomStr(size);
 
         // 因为可能存在跨域问题，这里将验证码保存在redis中将验证码生成base64
-//        String base64 = ImageUtil.encryCaptcha2Base64(captcha);
+        String base64 = ImageUtil.encryCaptcha2Base64(captcha);
 
         String uid = StringUtil.getUid();
 
@@ -50,7 +51,7 @@ public class CaptchaServiceImpl implements CaptchaService {
 
         CaptchaDto captchaDto = new CaptchaDto();
         captchaDto.setKey(uid);
-//        captchaDto.setCaptcha(base64);
+        captchaDto.setCaptcha(base64);
 
         return captchaDto;
     }

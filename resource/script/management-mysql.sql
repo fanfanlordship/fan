@@ -1,135 +1,103 @@
 /*==============================================================*/
-/* Table: SYS_ERROR_LOG                                         */
+/* Table: FAN_SYSTEM_AUTH                                       */
 /*==============================================================*/
-drop table if exists SYS_ERROR_LOG;
+drop table if exists FAN_SYSTEM_AUTH;
 
-create table SYS_ERROR_LOG
+create table FAN_SYSTEM_AUTH
 (
-    ID         BIGINT(20) not null comment 'ID',
-    NAME       VARCHAR(200) comment '异常名称',
-    ERROR_TIME DATETIME comment '异常发生时间',
-    DETAIL     MEDIUMTEXT comment '异常内容',
-    primary key (ID)
-) auto_increment = 1 comment '异常日志表';
-
-/*==============================================================*/
-/* Table: SYS_LOG_OPERATE                                       */
-/*==============================================================*/
-drop table if exists SYS_LOG_OPERATE;
-
-create table SYS_LOG_OPERATE
-(
-    ID          BIGINT(20) not null comment '日志ID',
-    FK_USER_ID  BIGINT(20) comment '操作人',
-    LOG_TIME    BIGINT(20) comment '操作时间',
-    IP          VARCHAR(30) comment '操作IP',
-    URL         VARCHAR(100) comment '请求的url',
-    NAME        VARCHAR(50) comment '日志名称',
-    CLASS_NAME  VARCHAR(300) comment 'class路径',
-    METHOD_NAME VARCHAR(100) comment '方法名',
-    DETAIL      MEDIUMTEXT comment '日志的详细内容',
-    primary key (ID)
-) auto_increment = 1 comment '操作日志表';
-
-/*==============================================================*/
-/* Table: SYS_PERMISSION                                        */
-/*==============================================================*/
-drop table if exists SYS_PERMISSION;
-
-create table SYS_PERMISSION
-(
-    ID          BIGINT(20) not null comment '权限ID',
-    NAME        VARCHAR(30) comment '权限名',
-    SUP_ID      BIGINT(10) comment '这个权限是属于哪个权限下的，顶级权限则为0',
-    STATUS      TINYINT(1) comment '状态',
-    PERMISSION  VARCHAR(100) comment '权限的URL',
-    TYPE        TINYINT(1) comment '权限类型，0 - 菜单权限，1 - 按钮权限',
-    ICON        VARCHAR(50) comment '图标',
-    MEMO        VARCHAR(100) comment '备注',
-    SORT        SMALLINT(3) comment '顺序',
-    CREATE_BY   BIGINT(20) comment '创建人',
-    CREATE_TIME DATETIME comment '创建时间',
+    ID        int not null comment '主键',
+    NAME      VARCHAR(30) comment '权限名',
+    PARENT_ID int comment '这个权限是属于哪个权限下的，顶级权限则为0',
+    STATUS    TINYINT(1) comment '状态',
+    ROUTER    VARCHAR(100) comment '权限的URL',
+    TYPE      TINYINT(1) comment '权限类型，0 - 菜单权限，1 - 按钮权限',
+    ICON      VARCHAR(50) comment '图标',
+    SORT      SMALLINT(3) comment '顺序',
     primary key (ID)
 ) auto_increment = 1 comment '权限表';
 
 /*==============================================================*/
-/* Table: SYS_ROLE                                              */
+/* Table: FAN_ROLE                                              */
 /*==============================================================*/
-drop table if exists SYS_ROLE;
+drop table if exists FAN_ROLE;
 
-create table SYS_ROLE
+create table FAN_ROLE
 (
-    ID          BIGINT(20) not null comment '角色ID',
+    ID          VARCHAR(32) not null comment '角色ID',
     NAME        VARCHAR(30) comment '角色名',
     STATUS      TINYINT(1) comment '角色状态，0-不可用 1-可用',
-    CREATE_BY   BIGINT(20) comment '创建人',
+    CREATE_BY   VARCHAR(32) comment '创建人',
     CREATE_TIME DATETIME comment '创建时间',
     primary key (ID)
-) auto_increment = 1 comment '角色表';
+) comment '角色表';
 
 /*==============================================================*/
-/* Table: SYS_ROLE_PER_LINK                                     */
+/* Table: FAN_LINK_ROLE_AUTH                                    */
 /*==============================================================*/
-create table SYS_ROLE_PER_LINK
+drop table if exists FAN_LINK_ROLE_AUTH;
+
+create table FAN_LINK_ROLE_AUTH
 (
-    FK_ROLE_ID BIGINT(20),
-    FK_PER_ID  BIGINT(20)
-);
+    FK_ROLE_ID VARCHAR(32) comment '角色ID',
+    FK_AUTH_ID int comment '权限ID',
+    primary key (FK_ROLE_ID, FK_AUTH_ID)
+) comment '角色权限关联表';
 
 /*==============================================================*/
-/* Table: SYS_SYSTEMPARAM                                       */
+/* Table: FAN_SYSTEM_CONFIG                                     */
 /*==============================================================*/
 drop table if exists FAN_SYSTEM_CONFIG;
+
 create table FAN_SYSTEM_CONFIG
 (
-    ID    INT         not null,
-    CODE  VARCHAR(50) not null,
-    NAME  VARCHAR(50),
-    VALUE VARCHAR(300),
+    ID    INT         not null comment '配置主键',
+    CODE  VARCHAR(50) not null comment '配置编码',
+    NAME  VARCHAR(50) comment '配置名称',
+    VALUE VARCHAR(300) comment '配置值',
     PRIMARY KEY (ID)
-);
+) comment '系统配置表';
 
 /*==============================================================*/
-/* Table: SYS_USER                                              */
+/* Table: FAN_USER                                              */
 /*==============================================================*/
-create table SYS_USER
+drop table if exists FAN_USER;
+
+create table FAN_USER
 (
-    ID          BIGINT(20) not null,
-    USERNAME    VARCHAR(30),
-    NAME        VARCHAR(30),
-    PASSWORD    VARCHAR(100),
-    STATUS      TINYINT(2),
-    TRUE_NAME   VARCHAR(30),
-    SEX         TINYINT(2),
-    MOBILE      VARCHAR(15),
-    EMAIL       VARCHAR(50),
-    BIRTHDAY    DATE,
-    IDNO        VARCHAR(20),
-    CREATE_BY   BIGINT(20),
-    CREATE_TIME DATETIME,
-    constraint PK_T_USER primary key (ID)
-);
+    ID          VARCHAR(32) not null comment '主键',
+    USERNAME    VARCHAR(30) comment '账户（登录名）',
+    NICK_NAME   VARCHAR(50) comment '昵称',
+    PASSWORD    VARCHAR(100) comment '密码',
+    STATUS      TINYINT(1) comment '状态',
+    CREATE_BY   VARCHAR(32) comment '创建人',
+    CREATE_TIME DATETIME comment '创建时间',
+    primary key (ID)
+) comment '用户表';
 
 /*==============================================================*/
-/* Table: SYS_USER_ROLE_LINK                                    */
+/* Table: FAN_USER_PASSWORD_HISTORY                             */
 /*==============================================================*/
-create table SYS_USER_ROLE_LINK
+drop table if exists FAN_USER_PASSWORD_HISTORY;
+
+create table FAN_USER_PASSWORD_HISTORY
 (
-    FK_USER_ID BIGINT(20),
-    FK_ROLE_ID BIGINT(20)
-);
+    ID           int not null comment '主键',
+    USER_ID      VARCHAR(32) comment '用户ID',
+    ENCODER_TYPE TINYINT comment '加密方式',
+    PASSWORD     VARCHAR(100) comment '密码',
+    CREATE_TIME  DATETIME comment '创建时间',
+    primary key (ID)
+) comment '用户密码历史表';
 
 /*==============================================================*/
-/* Table: T_DICT_ROOT                                    */
+/* Table: FAN_LINK_USER_ROLE                                    */
 /*==============================================================*/
-create table T_DICT_ROOT
+drop table if exists FAN_LINK_USER_ROLE;
+
+create table FAN_LINK_USER_ROLE
 (
-    ID          BIGINT(20),
-    NAME        VARCHAR(50),
-    CODE        VARCHAR(150),
-    STATUS      TINYINT(1),
-    MEMO        TEXT,
-    CREATE_BY   BIGINT(20),
-    CREATE_TIME DATETIME,
-    constraint PK_T_DICT_ROOT primary key (ID)
-);
+    FK_USER_ID VARCHAR(32) comment '用户ID',
+    FK_ROLE_ID VARCHAR(32) comment '角色ID',
+    primary key (FK_USER_ID, FK_ROLE_ID)
+) comment '用户角色关联表';
+

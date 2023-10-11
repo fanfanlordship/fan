@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.fan.cloud.auth.dao.FanRoleDao">
+
+    <resultMap id="roleMap" type="org.fan.cloud.auth.entity.Role">
+        <id column="ID" property="id"/>
+        <result column="NAME" property="name"/>
+        <result column="STATUS" property="enabled"/>
+        <result column="CREATE_BY" property="createBy"/>
+        <result column="CREATE_TIME" property="createTime" javaType="java.util.Date"/>
+    </resultMap>
+
+    <select id="queryRole" parameterType="org.fan.cloud.auth.entity.QueryRole" resultMap="roleMap">
+        select ID, NAME, STATUS, CREATE_BY, CREATE_TIME from FAN_ROLE
+        <where>
+            <if test="roleIds != null and !roleIds.isEmpty">
+                <choose>
+                    <when test="roleIds.size == 1">and ID = #{roleIds[0]}</when>
+                    <otherwise>
+                        and ID in
+                        <foreach collection="roleIds" item="item" separator="," open="(" close=")" index="index">
+                            #{item}
+                        </foreach>
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
+
+    <resultMap id="linkUserRoleMap" type="org.fan.cloud.auth.entity.LinkUserRole">
+        <id column="FK_USER_ID" property="userId"/>
+        <id column="FK_ROLE_ID" property="roleId"/>
+    </resultMap>
+
+    <select id="queryLinkUserRole" parameterType="org.fan.cloud.auth.entity.LinkUserRole" resultMap="linkUserRoleMap">
+        select FK_USER_ID, FK_ROLE_ID from FAN_LINK_USER_ROLE
+        <where>
+            <if test="userId != null and userId != ''">and FK_USER_ID = #{userId}</if>
+            <if test="roleId != null and roleId != ''">and FK_ROLE_ID = #{roleId}</if>
+        </where>
+    </select>
+</mapper>

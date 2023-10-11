@@ -1,5 +1,6 @@
 package org.fan.cloud.auth;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -12,6 +13,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  */
 @EnableConfigurationProperties
 @EnableFeignClients
+@MapperScan(basePackages = "org.fan.cloud.auth.dao")
 @SpringBootApplication(scanBasePackages = "org.fan.cloud.*")
 public class FanAuthApplication {
 

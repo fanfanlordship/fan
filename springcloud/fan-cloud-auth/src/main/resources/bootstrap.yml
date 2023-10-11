@@ -16,3 +16,6 @@ spring:
           - data-id: config-jwt.yaml
             group: DEFAULT_GROUP
             refresh: true
+          - data-id: config-database.yaml
+            group: DEFAULT_GROUP
+            refresh: true

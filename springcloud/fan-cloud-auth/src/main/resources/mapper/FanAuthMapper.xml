@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.fan.cloud.auth.dao.FanSystemAuthDao">
+
+    <resultMap id="permissionMap" type="org.fan.cloud.auth.entity.Permission">
+        <id column="ID" property="id"/>
+        <result column="NAME" property="name"/>
+        <result column="PARENT_ID" property="parentId"/>
+        <result column="ROUTER" property="router"/>
+        <result column="TYPE" property="type"/>
+        <result column="ICON" property="icon"/>
+        <result column="SORT" property="sort"/>
+    </resultMap>
+
+    <select id="queryAuth" parameterType="org.fan.cloud.auth.entity.QueryAuth" resultMap="permissionMap">
+        select ID, NAME, PARENT_ID, ROUTER, TYPE, ICON, SORT from FAN_SYSTEM_AUTH
+        <where>
+            <if test="authIds != null and !authIds.isEmpty">
+                <choose>
+                    <when test="authIds.size == 1">and ID = #{authIds[0]}</when>
+                    <otherwise>
+                        and ID in
+                        <foreach collection="authIds" item="item" separator="," open="(" close=")" index="index">
+                            #{item}
+                        </foreach>
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="enabled != null">and STATUS = #{enabled}</if>
+        </where>
+    </select>
+
+    <resultMap id="linkRoleAuthMap" type="org.fan.cloud.auth.entity.LinkRoleAuth">
+        <id column="FK_ROLE_ID" property="roleId"/>
+        <id column="FK_AUTH_ID" property="authId"/>
+    </resultMap>
+
+    <select id="queryLinkRoleAuth" parameterType="org.fan.cloud.auth.entity.QueryRoleAuth" resultMap="linkRoleAuthMap">
+        select FK_ROLE_ID, FK_AUTH_ID from FAN_LINK_ROLE_AUTH
+        <where>
+            <if test="roleIds != null and !roleIds.isEmpty">
+                <choose>
+                    <when test="roleIds.size == 1">and FK_ROLE_ID = #{roleIds[0]}</when>
+                    <otherwise>
+                        and FK_ROLE_ID in
+                        <foreach collection="roleIds" item="item" separator="," open="(" close=")" index="index">
+                            #{item}
+                        </foreach>
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
+</mapper>

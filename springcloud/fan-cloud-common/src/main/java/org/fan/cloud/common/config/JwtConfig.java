@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -33,9 +32,9 @@ public class JwtConfig {
 
     private Set<String> ignoreUrls;
 
-    @PostConstruct
-    public void doValue() {
-        setIgnoreUrls();
+    public Integer getRefreshTokenExpire() {
+        // 暂时写死刷新用的token在验证token失效后20分钟内还能使用
+        return this.expire + 20;
     }
 
     public String getHeader() {
@@ -73,7 +72,7 @@ public class JwtConfig {
 
     private void setIgnoreUrls() {
         this.ignoreUrls = Strings.isNullOrEmpty(this.ignoreUrl) ? Collections.emptySet()
-                : Splitter.on(",").splitToStream(this.ignoreUrl).collect(Collectors.toSet());
+                : Splitter.on(",").splitToStream(this.ignoreUrl).map(String::trim).collect(Collectors.toSet());
         LOGGER.info("Jwt ignore urls：{}", this.ignoreUrls);
     }
 

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.fan.cloud.auth.dao.FanUserDao">
+
+    <!--用户信息映射-->
+    <resultMap id="userMap" type="org.fan.cloud.auth.entity.User">
+        <id column="ID" property="userId"/>
+        <result column="USERNAME" property="username"/>
+        <result column="NICK_NAME" property="name"/>
+        <result column="PASSWORD" property="password"/>
+        <result column="STATUS" property="state"/>
+        <result column="CREATE_BY" property="createBy"/>
+        <result column="CREATE_TIME" property="createTime" javaType="java.util.Date"/>
+    </resultMap>
+
+    <select id="queryByParam" parameterType="org.fan.cloud.auth.entity.User" resultMap="userMap">
+        select ID, USERNAME, NICK_NAME, PASSWORD, STATUS, CREATE_BY, CREATE_TIME from FAN_USER
+        <where>
+            <if test="username != null and username != ''">and username = #{username}</if>
+        </where>
+    </select>
+</mapper>
