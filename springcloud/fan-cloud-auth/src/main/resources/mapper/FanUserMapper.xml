@@ -16,6 +16,7 @@
     <select id="queryByParam" parameterType="org.fan.cloud.auth.entity.User" resultMap="userMap">
         select ID, USERNAME, NICK_NAME, PASSWORD, STATUS, CREATE_BY, CREATE_TIME from FAN_USER
         <where>
+            <if test="userId != null and userId != ''">and ID = #{userId}</if>
             <if test="username != null and username != ''">and username = #{username}</if>
         </where>
     </select>

@@ -2,7 +2,6 @@ package org.fan.cloud.auth.service.impl;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.fan.cloud.auth.dao.FanUserDao;
 import org.fan.cloud.auth.entity.RequestArgs;
 import org.fan.cloud.auth.entity.User;
@@ -18,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;

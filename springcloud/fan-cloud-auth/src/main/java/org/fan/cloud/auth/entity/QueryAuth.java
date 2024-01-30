@@ -4,14 +4,24 @@ import java.util.List;
 
 /**
  * @author fanfanlordship
- * @Description TODO
+ * @Description 查询条件
  * @Date 2023/10/11 15:43
  */
 public class QueryAuth {
 
+    private String authId;
+
     private List<String> authIds;
 
     private Integer enabled;
+
+    public String getAuthId() {
+        return authId;
+    }
+
+    public void setAuthId(String authId) {
+        this.authId = authId;
+    }
 
     public List<String> getAuthIds() {
         return authIds;
@@ -32,7 +42,8 @@ public class QueryAuth {
     @Override
     public String toString() {
         return "QueryAuth{" +
-                "authIds=" + authIds +
+                "authId='" + authId + '\'' +
+                ", authIds=" + authIds +
                 ", enabled=" + enabled +
                 '}';
     }

@@ -23,6 +23,12 @@ public class MenusServiceImpl implements MenusService {
     private FanSystemAuthDao fanSystemAuthDao;
 
     @Override
+    public List<Permission> menus() {
+        List<Permission> permissions = fanSystemAuthDao.queryAuth(null);
+        return TreeUtils.toSortTree(permissions);
+    }
+
+    @Override
     public List<Permission> userMenus(String userId) {
         // 查询用户的角色
         List<Role> roles = roleService.byUser(userId);

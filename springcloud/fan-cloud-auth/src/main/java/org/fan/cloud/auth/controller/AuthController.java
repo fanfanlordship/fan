@@ -5,6 +5,7 @@ import org.fan.cloud.auth.entity.Permission;
 import org.fan.cloud.auth.entity.RequestArgs;
 import org.fan.cloud.auth.service.CaptchaService;
 import org.fan.cloud.auth.service.LoginMethodService;
+import org.fan.cloud.auth.service.MenusMoveService;
 import org.fan.cloud.auth.service.MenusService;
 import org.fan.cloud.common.util.RequestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,8 @@ public class AuthController {
     private LoginMethodService loginMethodService;
     @Autowired
     private MenusService menusService;
+    @Autowired
+    private MenusMoveService menusMoveService;
 
     @PostMapping("/captcha")
     public CaptchaDto captcha() {
@@ -48,5 +51,15 @@ public class AuthController {
     public List<Permission> menus() {
         String user = RequestUtil.getUser();
         return menusService.userMenus(user);
+    }
+
+    @PostMapping("/menus/data")
+    public List<Permission> menusData() {
+        return menusService.menus();
+    }
+
+    @PostMapping("/menus/move/up")
+    public List<Permission> menusMoveUp(@RequestBody RequestArgs args) {
+        return menusMoveService.moveUp(args.get);
     }
 }

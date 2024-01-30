@@ -68,6 +68,9 @@ export default {
   },
   created() {
     this.reCaptcha();
+
+    // 开启监听键盘按下事件
+    window.addEventListener('keydown', this.handkeyCode, true)
   },
   methods: {
     reCaptcha() {
@@ -96,6 +99,12 @@ export default {
             sessionStorage.setItem('refreshToken', resData.refreshToken);
             this.$router.push('/home');
           });
+    },
+    handkeyCode(e) {
+      if (e.keyCode === 13) {
+        // 触发了回车/空格键
+        this.onSubmit()
+      }
     }
   }
 };

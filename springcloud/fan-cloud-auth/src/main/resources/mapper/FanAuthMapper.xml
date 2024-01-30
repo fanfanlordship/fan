@@ -30,6 +30,17 @@
         </where>
     </select>
 
+    <select id="queryBrother" parameterType="org.fan.cloud.auth.entity.QueryAuth" resultMap="permissionMap">
+        select ID, NAME, PARENT_ID, ROUTER, TYPE, ICON, SORT from FAN_SYSTEM_AUTH a
+        <where>
+            exists(select tmp.PARENT_ID from FAN_SYSTEM_AUTH tmp
+            <where>
+                tmp.ID = #{authId} and tmp.PARENT_ID = a.PARENT_ID
+            </where>
+            )
+        </where>
+    </select>
+
     <resultMap id="linkRoleAuthMap" type="org.fan.cloud.auth.entity.LinkRoleAuth">
         <id column="FK_ROLE_ID" property="roleId"/>
         <id column="FK_AUTH_ID" property="authId"/>

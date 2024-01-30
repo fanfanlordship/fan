@@ -15,6 +15,11 @@ export const constantRouterMap = [
     name: 'Home',
     component: () => import('@/views/Home.vue'),
   },
+  {
+    path: '/system/auth',
+    name: 'Home2',
+    component: () => import('@/views/Auth.vue'),
+  },
 ];
 
 // /**

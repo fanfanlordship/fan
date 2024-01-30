@@ -11,5 +11,7 @@ public interface FanSystemAuthDao {
 
     List<Permission> queryAuth(QueryAuth queryAuth);
 
+    List<Permission> queryBrother(QueryAuth queryAuth);
+
     List<LinkRoleAuth> queryLinkRoleAuth(QueryRoleAuth queryRoleAuth);
 }

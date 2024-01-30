@@ -19,14 +19,20 @@ service.interceptors.request.use(req => {
 // 响应了拦截器（在响应之后对数据进行一些处理）
 service.interceptors.response.use(async (res) => {
     // 刷新token
-    if (res.data.data.code === '401') {
-
-        await service.post('/fan-cloud-nacos-auth/auth/refreshToken', {
+    const refreshUrl = '/fan-cloud-nacos-auth/auth/refreshToken';
+    // eslint-disable-next-line no-underscore-dangle
+    if (!!res.config.headers.__isRefreshToken && res.data.data.code === '401') {
+        await service.post(refreshUrl, {
             refreshToken: sessionStorage.getItem('refreshToken')
+        }, {
+            headers: {
+                __isRefreshToken: true,
+            }
         }).then(res1 => {
-            const {data} = res1.data;
+            const {data} = res1;
             if (data === '') {
-                console.log("掉线啦")
+                window.location.href = '/';
+                return;
             }
 
             const {accessToken} = data;
