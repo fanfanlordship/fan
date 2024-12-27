@@ -5,6 +5,7 @@ import org.fan.cloud.auth.dao.FanSystemAuthDao;
 import org.fan.cloud.auth.entity.*;
 import org.fan.cloud.auth.service.MenusService;
 import org.fan.cloud.auth.service.RoleService;
+import org.fan.cloud.common.entity.Association;
 import org.fan.cloud.common.util.TreeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,13 +24,13 @@ public class MenusServiceImpl implements MenusService {
     private FanSystemAuthDao fanSystemAuthDao;
 
     @Override
-    public List<Permission> menus() {
-        List<Permission> permissions = fanSystemAuthDao.queryAuth(null);
-        return TreeUtils.toSortTree(permissions);
+    public List<Menu> menus() {
+        List<Menu> menus = fanSystemAuthDao.queryByArgs(null);
+        return TreeUtils.toSortTree(menus);
     }
 
     @Override
-    public List<Permission> userMenus(String userId) {
+    public List<Menu> userMenus(String userId) {
         // 查询用户的角色
         List<Role> roles = roleService.byUser(userId);
         if (CollectionUtils.isEmpty(roles)) {
@@ -41,17 +42,17 @@ public class MenusServiceImpl implements MenusService {
         // 查询角色拥有的权限菜单
         QueryRoleAuth queryRoleAuth = new QueryRoleAuth();
         queryRoleAuth.setRoleIds(roleIds);
-        List<LinkRoleAuth> linkRoleAuths = fanSystemAuthDao.queryLinkRoleAuth(queryRoleAuth);
-        if (CollectionUtils.isEmpty(linkRoleAuths)) {
+        List<Association> associations = fanSystemAuthDao.queryLinkRoleAuth(queryRoleAuth);
+        if (CollectionUtils.isEmpty(associations)) {
             return Collections.emptyList();
         }
 
-        List<String> authId = linkRoleAuths.stream().map(LinkRoleAuth::getAuthId).filter(Strings::isNullOrEmpty).distinct().collect(Collectors.toList());
-        QueryAuth queryAuth = new QueryAuth();
-        queryAuth.setAuthIds(authId);
-        queryAuth.setEnabled(1);
-        List<Permission> permissions = fanSystemAuthDao.queryAuth(queryAuth);
+        List<String> authId = associations.stream().map(Association::getSecondary).filter(Strings::isNullOrEmpty).distinct().collect(Collectors.toList());
+        DatabaseArgs databaseArgs = new DatabaseArgs();
+        databaseArgs.setIds(authId);
+        databaseArgs.setEnabled("1");
+        List<Menu> menus = fanSystemAuthDao.queryByArgs(databaseArgs);
 
-        return TreeUtils.toSortTree(permissions);
+        return TreeUtils.toSortTree(menus);
     }
 }

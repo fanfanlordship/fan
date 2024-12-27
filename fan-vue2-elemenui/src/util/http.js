@@ -20,7 +20,6 @@ service.interceptors.request.use(req => {
 service.interceptors.response.use(async (res) => {
     // 刷新token
     const refreshUrl = '/fan-cloud-nacos-auth/auth/refreshToken';
-    // eslint-disable-next-line no-underscore-dangle
     if (!!res.config.headers.__isRefreshToken && res.data.data.code === '401') {
         await service.post(refreshUrl, {
             refreshToken: sessionStorage.getItem('refreshToken')

@@ -1,62 +1,62 @@
---´´½¨±í¿Õ¼ä
+--ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½
 CREATE TABLESPACE Manage DATAFILE 'D:\CodesAndFiles\DataBase\Community.DBF' SIZE 1M AUTOEXTEND ON NEXT 1M MAXSIZE 1G;
---´´½¨ÓÃ»§
+--ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½
 CREATE USER FANFAN IDENTIFIED BY 123 DEFAULT TABLESPACE Community;
---·ÖÅäÈ¨ÏÞ
+--ï¿½ï¿½ï¿½ï¿½È¨ï¿½ï¿½
 GRANT DBA TO FANFAN;
 
---°¢ÀïÔÆ
+--ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 CREATE TABLESPACE SpringbootManage DATAFILE '/database/database/Manage.DBF' SIZE 1M AUTOEXTEND ON NEXT 1M MAXSIZE 5G;
 CREATE TABLESPACE BILL DATAFILE '/database/database/Bill.DBF' SIZE 1M AUTOEXTEND ON NEXT 1M MAXSIZE 5G;
 CREATE USER FANFAN IDENTIFIED BY 12345678900 DEFAULT TABLESPACE SpringbootManage;
 GRANT DBA TO FANFAN;
-/*================================================================²åÈëµÄ²âÊÔÊý¾Ý======================================================================*/
---²åÈë×ÜºóÌ¨²âÊÔÈËÔ±
+/*================================================================ï¿½ï¿½ï¿½ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½======================================================================*/
+--ï¿½ï¿½ï¿½ï¿½ï¿½Üºï¿½Ì¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô±
 insert into SYS_USER (ID, USERNAME, NAME, PASSWORD, STATUS, TRUE_NAME, SEX, MOBILE, EMAIL, BIRTHDAY, IDNO, CREATE_BY, CREATE_TIME)
-values (1, '111', 'Çë½ÐÎÒ·²·²´óÈË', '698d51a19d8a121ce581499d7b701668', 1, 'fanfanlordship', 1, '12345678900', '123456789@qq.com', to_date('29-05-1996', 'dd-mm-yyyy'), '12345678912345678', 0, sysdate);
---²åÈë½ÇÉ«
-insert into SYS_ROLE (ID, NAME, STATUS, CREATE_BY, CREATE_TIME) values (1, '³¬¼¶¹ÜÀíÔ±', 1, 1, sysdate);
---½ÇÉ«-²âÊÔÈËÔ±¹ØÁªÐÅÏ¢
+values (1, '111', 'ï¿½ï¿½ï¿½ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', '698d51a19d8a121ce581499d7b701668', 1, 'fanfanlordship', 1, '12345678900', '123456789@qq.com', to_date('29-05-1996', 'dd-mm-yyyy'), '12345678912345678', 0, sysdate);
+--ï¿½ï¿½ï¿½ï¿½ï¿½É«
+insert into SYS_ROLE (ID, NAME, STATUS, CREATE_BY, CREATE_TIME) values (1, 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô±', 1, 1, sysdate);
+--ï¿½ï¿½É«-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 insert into SYS_USER_ROLE_LINK (FK_USER_ID, FK_ROLE_ID) values (1, 1);
---ÏµÍ³²ÎÊý
-insert into SYS_SYSTEMPARAM (ID, CODE, NAME, VALUE) values (1, 'SYS_NAME', 'ÏµÍ³Ãû³Æ', 'FANFANµÄºóÌ¨');
-insert into SYS_SYSTEMPARAM (ID, CODE, NAME, VALUE) values (2, 'DEFAULT_PASSWORD', 'Ä¬ÈÏÃÜÂë', '888888');
---ÏµÍ³È¨ÏÞ¹ÜÀí
---ÏµÍ³¹ÜÀíÔ±È¨ÏÞ
+--ÏµÍ³ï¿½ï¿½ï¿½ï¿½
+insert into SYS_SYSTEMPARAM (ID, CODE, NAME, VALUE) values (1, 'SYS_NAME', 'ÏµÍ³ï¿½ï¿½ï¿½ï¿½', 'FANFANï¿½Äºï¿½Ì¨');
+insert into SYS_SYSTEMPARAM (ID, CODE, NAME, VALUE) values (2, 'DEFAULT_PASSWORD', 'Ä¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', '888888');
+--ÏµÍ³È¨ï¿½Þ¹ï¿½ï¿½ï¿½
+--ÏµÍ³ï¿½ï¿½ï¿½ï¿½Ô±È¨ï¿½ï¿½
 insert into SYS_PERMISSION (ID, NAME, SUP_ID, STATUS, PERMISSION, TYPE, ICON, MEMO, SORT, CREATE_BY, CREATE_TIME)
-values (1, 'ÏµÍ³¹ÜÀí', 0, 1, null, 0, 'fa-caret-right', 'ÏµÍ³¹ÜÀí', 1, 1, sysdate);
+values (1, 'ÏµÍ³ï¿½ï¿½ï¿½ï¿½', 0, 1, null, 0, 'fa-caret-right', 'ÏµÍ³ï¿½ï¿½ï¿½ï¿½', 1, 1, sysdate);
 insert into SYS_PERMISSION (ID, NAME, SUP_ID, STATUS, PERMISSION, TYPE, ICON, MEMO, SORT, CREATE_BY, CREATE_TIME)
-values (2, 'È¨ÏÞ¹ÜÀí', 1, 1, '/manage/sys/permission', 0, 'fa-caret-right', 'ÏµÍ³¹ÜÀí-È¨ÏÞ¹ÜÀí', 1, 1, sysdate);
+values (2, 'È¨ï¿½Þ¹ï¿½ï¿½ï¿½', 1, 1, '/manage/sys/menu', 0, 'fa-caret-right', 'ÏµÍ³ï¿½ï¿½ï¿½ï¿½-È¨ï¿½Þ¹ï¿½ï¿½ï¿½', 1, 1, sysdate);
 insert into SYS_PERMISSION (ID, NAME, SUP_ID, STATUS, PERMISSION, TYPE, ICON, MEMO, SORT, CREATE_BY, CREATE_TIME)
-values (3, 'ÏµÍ³²ÎÊý', 1, 1, '/manage/sys/sysparam', 0, 'fa-caret-right', 'ÏµÍ³¹ÜÀí-ÏµÍ³²ÎÊý', 2, 1, sysdate);
+values (3, 'ÏµÍ³ï¿½ï¿½ï¿½ï¿½', 1, 1, '/manage/sys/sysparam', 0, 'fa-caret-right', 'ÏµÍ³ï¿½ï¿½ï¿½ï¿½-ÏµÍ³ï¿½ï¿½ï¿½ï¿½', 2, 1, sysdate);
 insert into SYS_PERMISSION (ID, NAME, SUP_ID, STATUS, PERMISSION, TYPE, ICON, MEMO, SORT, CREATE_BY, CREATE_TIME)
-values (4, '½ÇÉ«¹ÜÀí', 1, 1, '/manage/sys/role', 0, 'fa-caret-right', 'ÏµÍ³¹ÜÀí-½ÇÉ«¹ÜÀí', 3, 1, sysdate);
+values (4, 'ï¿½ï¿½É«ï¿½ï¿½ï¿½ï¿½', 1, 1, '/manage/sys/role', 0, 'fa-caret-right', 'ÏµÍ³ï¿½ï¿½ï¿½ï¿½-ï¿½ï¿½É«ï¿½ï¿½ï¿½ï¿½', 3, 1, sysdate);
 insert into SYS_PERMISSION (ID, NAME, SUP_ID, STATUS, PERMISSION, TYPE, ICON, MEMO, SORT, CREATE_BY, CREATE_TIME)
-values (5, 'ÓÃ»§¹ÜÀí', 1, 1, '/manage/user/user', 0, 'fa-caret-right', 'ÏµÍ³¹ÜÀí-ÓÃ»§¹ÜÀí', 4, 1, sysdate);
+values (5, 'ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½', 1, 1, '/manage/user/user', 0, 'fa-caret-right', 'ÏµÍ³ï¿½ï¿½ï¿½ï¿½-ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½', 4, 1, sysdate);
 insert into SYS_PERMISSION (ID, NAME, SUP_ID, STATUS, PERMISSION, TYPE, ICON, MEMO, SORT, CREATE_BY, CREATE_TIME)
-values (6, 'ÈÕÖ¾¹ÜÀí', 1, 1, null, 0, 'fa-caret-right', 'ÏµÍ³¹ÜÀí-ÈÕÖ¾¹ÜÀí', 5, 1, sysdate);
+values (6, 'ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½', 1, 1, null, 0, 'fa-caret-right', 'ÏµÍ³ï¿½ï¿½ï¿½ï¿½-ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½', 5, 1, sysdate);
 insert into SYS_PERMISSION (ID, NAME, SUP_ID, STATUS, PERMISSION, TYPE, ICON, MEMO, SORT, CREATE_BY, CREATE_TIME)
-values (7, '²Ù×÷ÈÕÖ¾', 6, 1, '/manage/sys/log/operate', 0, 'fa-caret-right', 'ÏµÍ³¹ÜÀí-ÈÕÖ¾¹ÜÀí-²Ù×÷ÈÕÖ¾', 1, 1, sysdate);
+values (7, 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾', 6, 1, '/manage/sys/log/operate', 0, 'fa-caret-right', 'ÏµÍ³ï¿½ï¿½ï¿½ï¿½-ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾', 1, 1, sysdate);
 insert into SYS_PERMISSION (ID, NAME, SUP_ID, STATUS, PERMISSION, TYPE, ICON, MEMO, SORT, CREATE_BY, CREATE_TIME)
-values (8, 'Òì³£ÈÕÖ¾', 6, 1, '/manage/sys/log/error', 0, 'fa-caret-right', 'ÏµÍ³¹ÜÀí-ÈÕÖ¾¹ÜÀí-Òì³£ÈÕÖ¾', 2, 1, sysdate);
+values (8, 'ï¿½ì³£ï¿½ï¿½Ö¾', 6, 1, '/manage/sys/log/error', 0, 'fa-caret-right', 'ÏµÍ³ï¿½ï¿½ï¿½ï¿½-ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½-ï¿½ì³£ï¿½ï¿½Ö¾', 2, 1, sysdate);
 insert into SYS_PERMISSION (ID, NAME, SUP_ID, STATUS, PERMISSION, TYPE, ICON, MEMO, SORT, CREATE_BY, CREATE_TIME)
-values (9, 'µÇÂ¼ÈÕÖ¾', 6, 1, '/manage/sys/log/login', 0, 'fa-caret-right', 'ÏµÍ³¹ÜÀí-ÈÕÖ¾¹ÜÀí-µÇÂ¼ÈÕÖ¾', 3, 1, sysdate);
+values (9, 'ï¿½ï¿½Â¼ï¿½ï¿½Ö¾', 6, 1, '/manage/sys/log/login', 0, 'fa-caret-right', 'ÏµÍ³ï¿½ï¿½ï¿½ï¿½-ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½-ï¿½ï¿½Â¼ï¿½ï¿½Ö¾', 3, 1, sysdate);
 insert into SYS_PERMISSION (ID, NAME, SUP_ID, STATUS, PERMISSION, TYPE, ICON, MEMO, SORT, CREATE_BY, CREATE_TIME)
-values (10, '°´Å¥È¨ÏÞ', 2, 1, '', 1, '', 'ÏµÍ³¹ÜÀí-È¨ÏÞ¹ÜÀí-°´Å¥È¨ÏÞ', 1, 1, sysdate);
+values (10, 'ï¿½ï¿½Å¥È¨ï¿½ï¿½', 2, 1, '', 1, '', 'ÏµÍ³ï¿½ï¿½ï¿½ï¿½-È¨ï¿½Þ¹ï¿½ï¿½ï¿½-ï¿½ï¿½Å¥È¨ï¿½ï¿½', 1, 1, sysdate);
 insert into SYS_PERMISSION (ID, NAME, SUP_ID, STATUS, PERMISSION, TYPE, ICON, MEMO, SORT, CREATE_BY, CREATE_TIME)
-values (11, 'ÐÂÔöÈ¨ÏÞ', 10, 1, 'system:permission:btn:addAuthority', 1, '', 'ÏµÍ³¹ÜÀí-È¨ÏÞ¹ÜÀí-°´Å¥È¨ÏÞ-ÐÂÔöÈ¨ÏÞ', 1, 1, sysdate);
+values (11, 'ï¿½ï¿½ï¿½ï¿½È¨ï¿½ï¿½', 10, 1, 'system:menu:btn:addAuthority', 1, '', 'ÏµÍ³ï¿½ï¿½ï¿½ï¿½-È¨ï¿½Þ¹ï¿½ï¿½ï¿½-ï¿½ï¿½Å¥È¨ï¿½ï¿½-ï¿½ï¿½ï¿½ï¿½È¨ï¿½ï¿½', 1, 1, sysdate);
 insert into SYS_PERMISSION (ID, NAME, SUP_ID, STATUS, PERMISSION, TYPE, ICON, MEMO, SORT, CREATE_BY, CREATE_TIME)
-values (12, '±à¼­È¨ÏÞ', 10, 1, 'system:permission:btn:editAuthority', 1, '', 'ÏµÍ³¹ÜÀí-È¨ÏÞ¹ÜÀí-°´Å¥È¨ÏÞ-±à¼­²Ëµ¥', 2, 1, sysdate);
+values (12, 'ï¿½à¼­È¨ï¿½ï¿½', 10, 1, 'system:menu:btn:editAuthority', 1, '', 'ÏµÍ³ï¿½ï¿½ï¿½ï¿½-È¨ï¿½Þ¹ï¿½ï¿½ï¿½-ï¿½ï¿½Å¥È¨ï¿½ï¿½-ï¿½à¼­ï¿½Ëµï¿½', 2, 1, sysdate);
 insert into SYS_PERMISSION (ID, NAME, SUP_ID, STATUS, PERMISSION, TYPE, ICON, MEMO, SORT, CREATE_BY, CREATE_TIME)
-values (13, 'ÏµÍ³µ÷ÊÔ', 0, 1, '', 0, 'fa-caret-right', 'ÏµÍ³µ÷ÊÔ', 2, 1, sysdate);
+values (13, 'ÏµÍ³ï¿½ï¿½ï¿½ï¿½', 0, 1, '', 0, 'fa-caret-right', 'ÏµÍ³ï¿½ï¿½ï¿½ï¿½', 2, 1, sysdate);
 insert into SYS_PERMISSION (ID, NAME, SUP_ID, STATUS, PERMISSION, TYPE, ICON, MEMO, SORT, CREATE_BY, CREATE_TIME)
-values (14, 'swagger', 13, 1, '/swagger-ui.html', 0, 'fa-bug', 'ÏµÍ³µ÷ÊÔ-swagger', 1, 1, sysdate);
+values (14, 'swagger', 13, 1, '/swagger-ui.html', 0, 'fa-bug', 'ÏµÍ³ï¿½ï¿½ï¿½ï¿½-swagger', 1, 1, sysdate);
 insert into SYS_PERMISSION (ID, NAME, SUP_ID, STATUS, PERMISSION, TYPE, ICON, MEMO, SORT, CREATE_BY, CREATE_TIME)
-values (15, 'ÇëÇóºÄÊ±', 13, 1, '/test/request/duration', 0, 'fa-bug', 'ÏµÍ³µ÷ÊÔ-ÇëÇóºÄÊ±', 2, 1, sysdate);
+values (15, 'ï¿½ï¿½ï¿½ï¿½ï¿½Ê±', 13, 1, '/test/request/duration', 0, 'fa-bug', 'ÏµÍ³ï¿½ï¿½ï¿½ï¿½-ï¿½ï¿½ï¿½ï¿½ï¿½Ê±', 2, 1, sysdate);
 insert into SYS_PERMISSION (ID, NAME, SUP_ID, STATUS, PERMISSION, TYPE, ICON, MEMO, SORT, CREATE_BY, CREATE_TIME)
-values (16, 'ÏµÍ³×Öµä', 1, 1, '/manage/sys/dictionary', 0, 'fa-bug', 'ÏµÍ³¹ÜÀí-ÏµÍ³×Öµä', 6, 1, sysdate);
+values (16, 'ÏµÍ³ï¿½Öµï¿½', 1, 1, '/manage/sys/dictionary', 0, 'fa-bug', 'ÏµÍ³ï¿½ï¿½ï¿½ï¿½-ÏµÍ³ï¿½Öµï¿½', 6, 1, sysdate);
 
---È¨ÏÞ-½ÇÉ«¹ØÁª
+--È¨ï¿½ï¿½-ï¿½ï¿½É«ï¿½ï¿½ï¿½ï¿½
 insert into SYS_ROLE_PER_LINK (FK_ROLE_ID, FK_PER_ID) values (1, 1);
 insert into SYS_ROLE_PER_LINK (FK_ROLE_ID, FK_PER_ID) values (1, 2);
 insert into SYS_ROLE_PER_LINK (FK_ROLE_ID, FK_PER_ID) values (1, 3);

@@ -11,7 +11,7 @@
         <menu-tree :menuList="item.children" :click-menu="clickMenu"></menu-tree>
       </el-submenu>
       <!-- 没有子菜单-->
-      <el-menu-item v-else @click="clickMenu(item)" :index="item.id">
+      <el-menu-item v-else @click="clickMenu(item)" :index="item.path">
         <template slot="title">
           <i :class="item.icon"></i>
           {{ item.name }}

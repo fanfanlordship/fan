@@ -1,17 +1,19 @@
 package org.fan.cloud.auth.dao;
 
-import org.fan.cloud.auth.entity.LinkRoleAuth;
-import org.fan.cloud.auth.entity.Permission;
-import org.fan.cloud.auth.entity.QueryAuth;
+import org.fan.cloud.auth.entity.DatabaseArgs;
+import org.fan.cloud.auth.entity.Menu;
 import org.fan.cloud.auth.entity.QueryRoleAuth;
+import org.fan.cloud.common.entity.Association;
 
 import java.util.List;
 
 public interface FanSystemAuthDao {
 
-    List<Permission> queryAuth(QueryAuth queryAuth);
+    List<Menu> queryByArgs(DatabaseArgs query);
 
-    List<Permission> queryBrother(QueryAuth queryAuth);
+    List<Menu> queryBrother(DatabaseArgs query);
 
-    List<LinkRoleAuth> queryLinkRoleAuth(QueryRoleAuth queryRoleAuth);
+    List<Association> queryLinkRoleAuth(QueryRoleAuth queryRoleAuth);
+
+    int updateByPrimary(Menu menu);
 }

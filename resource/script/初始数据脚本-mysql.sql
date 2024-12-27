@@ -21,13 +21,12 @@ insert into FAN_SYSTEM_CONFIG (ID, CODE, NAME, VALUE) values (1, 'SYS_NAME', '�
 insert into FAN_SYSTEM_CONFIG (ID, CODE, NAME, VALUE) values (2, 'DEFAULT_PASSWORD', '默认密码', '888888');
 insert into FAN_SYSTEM_CONFIG (ID, CODE, NAME, VALUE) values (3, 'CAPTCHA_SIZE', '验证码长度', '4');
 
-#系统权限管理
-#系统管理员权限
-truncate table FAN_SYSTEM_AUTH;
-insert into FAN_SYSTEM_AUTH (ID, NAME, PARENT_ID, STATUS, ROUTER, TYPE, ICON, SORT) values (1, '系统管理', 0, 1, null, 0, 'fa-caret-right', 1);
-insert into FAN_SYSTEM_AUTH (ID, NAME, PARENT_ID, STATUS, ROUTER, TYPE, ICON, SORT) values (2, '权限管理', 1, 1, '/manage/sys/permission', 0, 'fa-caret-right', 1);
-insert into FAN_SYSTEM_AUTH (ID, NAME, PARENT_ID, STATUS, ROUTER, TYPE, ICON, SORT) values (3, '角色管理', 1, 1, '/manage/sys/role', 0, 'fa-caret-right', 2);
-insert into FAN_SYSTEM_AUTH (ID, NAME, PARENT_ID, STATUS, ROUTER, TYPE, ICON, SORT) values (4, '用户管理', 1, 1, '/manage/sys/user', 0, 'fa-caret-right', 3);
+# 菜单管理
+truncate table FAN_SYSTEM_MENU;
+INSERT INTO FAN_SYSTEM_MENU (ID, NAME, CODE, PARENT_ID, STATUS, PATH, ROUTER, ICON, SORT) VALUES (1, '系统管理', 'SystemManage', 0, 1, null, null, 'fa-caret-right', 1);
+INSERT INTO FAN_SYSTEM_MENU (ID, NAME, CODE, PARENT_ID, STATUS, PATH, ROUTER, ICON, SORT) VALUES (2, '菜单管理', 'MenusManage', 1, 1, '/fan/auth/menu', '/views/auth/menu', 'fa-caret-right', 1);
+INSERT INTO FAN_SYSTEM_MENU (ID, NAME, CODE, PARENT_ID, STATUS, PATH, ROUTER, ICON, SORT) VALUES (3, '角色管理', 'RoleManage', 1, 1, '/fan/auth/role', '/views/auth/role', 'fa-caret-right', 2);
+INSERT INTO FAN_SYSTEM_MENU (ID, NAME, CODE, PARENT_ID, STATUS, PATH, ROUTER, ICON, SORT) VALUES (4, '用户管理', 'UserManage', 1, 1, '/fan/user', '/views/user', 'fa-caret-right', 3);
 
 #权限-角色关联
 truncate table FAN_LINK_ROLE_AUTH;

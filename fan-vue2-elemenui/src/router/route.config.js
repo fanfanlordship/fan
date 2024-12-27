@@ -1,3 +1,6 @@
+// eslint-disable-next-line import/extensions
+// import router from "@/router/index";
+
 /**
  * constantRouterMap
  * 没有权限要求的基本页
@@ -5,22 +8,30 @@
  * 不需要动态判断权限的路由
  */
 export const constantRouterMap = [
-  {
-    path: '/',
-    name: 'Login',
-    component: () => import('@/views/Login.vue'),
-  },
-  {
-    path: '/home',
-    name: 'Home',
-    component: () => import('@/views/Home.vue'),
-  },
-  {
-    path: '/system/auth',
-    name: 'Home2',
-    component: () => import('@/views/Auth.vue'),
-  },
+    {
+        path: '/',
+        name: 'Login',
+        component: () => import('@/views/Login.vue'),
+    },
+    {
+        path: '/home',
+        name: 'Home',
+        component: () => import('@/views/Home.vue'),
+        children: [
+            {
+                path: '/fan/auth/menu',
+                name: 'MenusManage',
+                component: () => import('@/views/menus/Index.vue'),
+            },
+            {
+                path: '/fan/user',
+                name: 'UserManage',
+                component: () => import('@/views/users/Index.vue'),
+            }
+        ]
+    },
 ];
+
 
 // /**
 //  * 动态菜单，走权限控制

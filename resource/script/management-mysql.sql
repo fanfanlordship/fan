@@ -1,20 +1,21 @@
 /*==============================================================*/
 /* Table: FAN_SYSTEM_AUTH                                       */
 /*==============================================================*/
-drop table if exists FAN_SYSTEM_AUTH;
+drop table if exists FAN_SYSTEM_MENU;
 
-create table FAN_SYSTEM_AUTH
+create table FAN_SYSTEM_MENU
 (
-    ID        int not null comment '主键',
-    NAME      VARCHAR(30) comment '权限名',
-    PARENT_ID int comment '这个权限是属于哪个权限下的，顶级权限则为0',
+    ID        int          not null comment '主键',
+    NAME      VARCHAR(30) comment '菜单名',
+    CODE      varchar(20)  null unique comment '菜单编码',
+    PARENT_ID int comment '上级菜单主键',
     STATUS    TINYINT(1) comment '状态',
-    ROUTER    VARCHAR(100) comment '权限的URL',
-    TYPE      TINYINT(1) comment '权限类型，0 - 菜单权限，1 - 按钮权限',
-    ICON      VARCHAR(50) comment '图标',
-    SORT      SMALLINT(3) comment '顺序',
+    PATH      varchar(100) null comment '地址',
+    ROUTER    VARCHAR(100) comment '菜单的路由',
+    ICON      VARCHAR(50) comment '菜单图标',
+    SORT      SMALLINT(3) comment '菜单顺序',
     primary key (ID)
-) auto_increment = 1 comment '权限表';
+) auto_increment = 1 comment '菜单表';
 
 /*==============================================================*/
 /* Table: FAN_ROLE                                              */

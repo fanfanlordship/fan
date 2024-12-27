@@ -26,6 +26,10 @@
   "rules": {
     "vue/multi-word-component-names": "off",
     "import/prefer-default-export": "off",
-    "import/no-unresolved": "off"
+    "import/no-unresolved": "off",
+    // 禁用 no-param-reassign 规则
+    "no-param-reassign": "off",
+    // 允许在标识符中使用下划线
+    "no-underscore-dangle": "off"
   }
 }

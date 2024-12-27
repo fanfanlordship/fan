@@ -4,6 +4,7 @@ import App from './App.vue';
 import 'element-ui/lib/theme-chalk/index.css';
 import router from './router/index';
 import require from './util/http';
+import store from './store/index';
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
@@ -13,9 +14,10 @@ Vue.use(ElementUI);
 Vue.prototype.$axios = require;
 
 new Vue({
-  require,
-  render: h => h(App),
-  router
+    store,
+    require,
+    render: h => h(App),
+    router
 }).$mount('#app');
 
 // module.exports = {

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.fan.cloud.auth.dao.FanSystemAuthDao">
+
+    <resultMap id="menuMap" type="org.fan.cloud.auth.entity.Menu">
+        <id column="ID" property="id"/>
+        <result column="NAME" property="name"/>
+        <result column="CODE" property="code"/>
+        <result column="PARENT_ID" property="parentId"/>
+        <result column="PATH" property="path"/>
+        <result column="ROUTER" property="router"/>
+        <result column="ICON" property="icon"/>
+        <result column="SORT" property="sort"/>
+    </resultMap>
+
+    <select id="queryByArgs" parameterType="org.fan.cloud.auth.entity.DatabaseArgs" resultMap="menuMap">
+        select ID, NAME, CODE, PARENT_ID, PATH, ROUTER, ICON, SORT from FAN_SYSTEM_MENU
+        <where>
+            <if test="ids != null and !ids.isEmpty">
+                <choose>
+                    <when test="ids.size == 1">and ID = #{ids[0]}</when>
+                    <otherwise>
+                        and ID in
+                        <foreach collection="ids" item="item" separator="," open="(" close=")" index="index">
+                            #{item}
+                        </foreach>
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="enabled != null">and STATUS = #{enabled}</if>
+        </where>
+    </select>
+
+    <select id="queryBrother" parameterType="org.fan.cloud.auth.entity.DatabaseArgs" resultMap="menuMap">
+        select ID, NAME, CODE, PARENT_ID, ROUTER, ICON, SORT from FAN_SYSTEM_MENU a
+        <where>
+            exists(select tmp.PARENT_ID from FAN_SYSTEM_MENU tmp
+            <where>
+                tmp.ID = #{ids[0]} and tmp.PARENT_ID = a.PARENT_ID
+            </where>
+            )
+        </where>
+    </select>
+
+    <resultMap id="associationMap" type="org.fan.cloud.common.entity.Association">
+        <id column="FK_ROLE_ID" property="primary"/>
+        <id column="FK_AUTH_ID" property="secondary"/>
+    </resultMap>
+
+    <select id="queryLinkRoleAuth" parameterType="org.fan.cloud.auth.entity.QueryRoleAuth" resultMap="associationMap">
+        select FK_ROLE_ID, FK_AUTH_ID from FAN_LINK_ROLE_AUTH
+        <where>
+            <if test="roleIds != null and !roleIds.isEmpty">
+                <choose>
+                    <when test="roleIds.size == 1">and FK_ROLE_ID = #{roleIds[0]}</when>
+                    <otherwise>
+                        and FK_ROLE_ID in
+                        <foreach collection="roleIds" item="item" separator="," open="(" close=")" index="index">
+                            #{item}
+                        </foreach>
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
+
+    <update id="updateByPrimary" parameterType="org.fan.cloud.auth.entity.Menu">
+        update FAN_SYSTEM_AUTH
+        <set>
+            <trim suffixOverrides=",">
+                <if test="name != null">NAME = #{name},</if>
+                <if test="parentId != null">PARENT_ID = #{parentId},</if>
+                <if test="router != null">ROUTER = #{router},</if>
+                <if test="icon != null">ICON = #{icon},</if>
+                <if test="sort != null">SORT = #{sort},</if>
+            </trim>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+</mapper>

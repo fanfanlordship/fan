@@ -3,11 +3,11 @@
     <el-header style="text-align: right; font-size: 12px;height: 80px">
 
       <div class="fan-main-head">
-        <el-dropdown>
+        <el-dropdown @command="handleCommand">
           <el-avatar :size="50"
                      :src="'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'"></el-avatar>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>用户信息</el-dropdown-item>
+            <el-dropdown-item command="userDetail">个人信息</el-dropdown-item>
             <el-dropdown-item>修改密码</el-dropdown-item>
             <el-dropdown-item>退出登录</el-dropdown-item>
           </el-dropdown-menu>
@@ -17,19 +17,25 @@
 
     <el-container>
       <el-aside width="15rem" style="background-color: #f7f8fa">
-        <el-menu background-color="#f7f8fa" active-text-color="#ffd04b" :default-openeds="['1']" style="height: 100%">
+        <el-menu router background-color="#f7f8fa" active-text-color="#ffd04b" :default-openeds="['1']"
+                 style="height: 100%">
           <menu-tree :menuList="menuList" :click-menu="openView"></menu-tree>
         </el-menu>
       </el-aside>
 
       <el-main class="el-main">
-        <el-tabs type="border-card" closable v-model="activeName" @tab-remove="tabRemove" style="height: 100%">
-          <el-tab-pane v-for="item in tabs" :name="item.name" :key="item.name" style="height: 100%">
+        <el-tabs type="border-card" v-model="editableTabsValue" @tab-remove="tabRemove" @tab-click="tabClick"
+                 style="height: 100%">
+          <el-tab-pane v-for="item in editableTabs" :closable="item.close" :name="item.name" :key="item.name"
+                       style="height: 100%">
             <span slot="label">
               <i :class="item.icon"></i>&nbsp;&nbsp;{{ item.title }}
             </span>
-            <iframe :src="item.router"></iframe>
+            <keep-alive>
+              <router-view></router-view>
+            </keep-alive>
           </el-tab-pane>
+
         </el-tabs>
       </el-main>
     </el-container>
@@ -37,7 +43,11 @@
 </template>
 
 <script>
+// eslint-disable-next-line import/no-extraneous-dependencies
+import {ref} from "vue";
 import MenuTree from "@/components/MenuTree.vue";
+// eslint-disable-next-line import/extensions
+import router from "@/router";
 
 export default {
   components: {
@@ -47,8 +57,18 @@ export default {
     return {
       menuList: [],
       tabs: [],
-      activeName: null
+      activeName: null,
+      editableTabsValue: ref(this.$store.state.editableTabsValue),
+      editableTabs: ref(this.$store.state.editableTabs)
     };
+  },
+  watch: {
+    "$store.state": {
+      deep: true,
+      handler() {
+        this.refreshTabs();
+      }
+    }
   },
   created() {
     this.initMenus();
@@ -56,42 +76,57 @@ export default {
   methods: {
     initMenus() {
       this.$axios.post('/fan-cloud-nacos-auth/auth/menus').then(res => {
-        const resData = res.data.data;
-        this.menuList = resData;
+        this.menuList = res.data.data;
       });
     },
-    openView(e) {
-      let hasTab = false;
-      this.tabs.forEach(item => {
-        if (item.name === e.id) {
-          this.activeName = e.id;
-          hasTab = true;
-        }
-      })
-      if (!hasTab) {
-        this.tabs.push({
-          title: e.name,
-          name: e.id,
-          router: e.router,
-          icon: e.icon
-        });
-        this.activeName = e.id;
+    handleCommand(command) {
+
+      switch (command) {
+        case "userDetail":
+          console.log("打开个人信息")
+          this.openView({
+            id: "userDetail",
+            name: "个人信息",
+            router: "/home/userDetail",
+            icon: "el-icon-s-custom"
+          });
+          break;
+        default:
+          break;
       }
     },
-    tabRemove(name) {
-      const tmp = [];
-      this.tabs.forEach((item, index) => {
-        if (item.name !== name) {
-          tmp.push(item);
-        } else {
-          const nextTab = this.tabs[index + 1] || this.tabs[index - 1];
-          if (nextTab) {
-            this.activeName = nextTab.name;
+    openView(e) {
+      this.$store.commit('ADD_TABS', e)
+    },
+    tabClick(tab) {
+      // 对tab参数处理，以获得当前点击的标签页的路由
+      const name = JSON.stringify(tab.paneName).replace('"', '').replace('"', '');
+      // 调用切换方法切换标签页
+      this.$store.commit('CHANGE_TABS', name);
+      // 路由跳转以实现切换界面
+      router.push(name)
+    },
+    tabRemove(targetName) {
+      const tabs = this.editableTabs;
+      let activeName = this.editableTabsValue;
+      if (activeName === targetName) {
+        tabs.forEach((tab, index) => {
+          if (tab.name === targetName) {
+            const nextTab = tabs[index + 1] || tabs[index - 1];
+            if (nextTab) {
+              activeName = nextTab.name;
+            }
           }
-        }
-      })
-      this.tabs = tmp;
-    }
+        });
+      }
+      this.$store.state.editableTabsValue = activeName;
+      this.$store.state.editableTabs = tabs.filter(tab => tab.name !== targetName);
+      router.push(activeName)
+    },
+    refreshTabs() {
+      this.editableTabsValue = this.$store.state.editableTabsValue;
+      this.editableTabs = this.$store.state.editableTabs;
+    },
 
   }
 };

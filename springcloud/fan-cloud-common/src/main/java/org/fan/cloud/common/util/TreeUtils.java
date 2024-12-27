@@ -61,7 +61,7 @@ public class TreeUtils {
             }
 
             if (sort) {
-                Collections.sort((List<TreeNodeSort>) list);
+                Collections.sort((List<TreeNodeSort>) treeNodes);
             }
 
             TreeNode treeNode = map.get(parentId);

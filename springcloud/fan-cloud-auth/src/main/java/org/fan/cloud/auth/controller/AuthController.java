@@ -1,7 +1,7 @@
 package org.fan.cloud.auth.controller;
 
 import org.fan.cloud.auth.entity.CaptchaDto;
-import org.fan.cloud.auth.entity.Permission;
+import org.fan.cloud.auth.entity.Menu;
 import org.fan.cloud.auth.entity.RequestArgs;
 import org.fan.cloud.auth.service.CaptchaService;
 import org.fan.cloud.auth.service.LoginMethodService;
@@ -32,34 +32,75 @@ public class AuthController {
     @Autowired
     private MenusMoveService menusMoveService;
 
+    /**
+     * 获取验证码
+     *
+     * @return
+     */
     @PostMapping("/captcha")
     public CaptchaDto captcha() {
         return captchaService.getCaptcha();
     }
 
+    /**
+     * 登录
+     *
+     * @param args
+     * @return
+     */
     @PostMapping("/login")
     public Map<String, String> login(@RequestBody RequestArgs args) {
         return loginMethodService.login(args);
     }
 
+    /**
+     * 刷新token
+     *
+     * @param args
+     * @return
+     */
     @PostMapping("/refreshToken")
     public Map<String, String> refreshToken(@RequestBody RequestArgs args) {
         return loginMethodService.refreshToken(args.getRefreshToken());
     }
 
+    /**
+     * 获取菜单
+     *
+     * @return
+     */
     @PostMapping("/menus")
-    public List<Permission> menus() {
+    public List<Menu> menus() {
         String user = RequestUtil.getUser();
         return menusService.userMenus(user);
     }
 
     @PostMapping("/menus/data")
-    public List<Permission> menusData() {
+    public List<Menu> menusData() {
         return menusService.menus();
     }
 
+    /**
+     * 上移菜单
+     *
+     * @param args
+     * @return
+     */
     @PostMapping("/menus/move/up")
-    public List<Permission> menusMoveUp(@RequestBody RequestArgs args) {
-        return menusMoveService.moveUp(args.get);
+    public boolean menusMoveUp(@RequestBody RequestArgs args) {
+        menusMoveService.moveUp(args.getId());
+        return true;
+    }
+
+    /**
+     * 下移菜单
+     *
+     * @param args
+     * @return
+     */
+    @PostMapping("/menus/move/down")
+    public boolean menusMoveDown(@RequestBody RequestArgs args) {
+        menusMoveService.moveDown(args.getId());
+        return true;
     }
 }
